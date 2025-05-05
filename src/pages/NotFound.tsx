@@ -1,27 +1,33 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 
-const NotFound = () => {
-  const location = useLocation();
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import Layout from "@/components/Layout";
+import { useStore } from "@/store/useStore";
 
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
-
+export default function NotFound() {
+  const { language } = useStore();
+  
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
+    <Layout>
+      <div className="h-[calc(100vh-200px)] flex flex-col items-center justify-center px-4">
+        <h1 className="text-8xl font-bold mb-4">404</h1>
+        <h2 className="text-2xl font-medium mb-6">
+          {language === "en" ? "Page Not Found" : "Sayfa Bulunamadı"}
+        </h2>
+        <p className="text-foreground/70 text-center max-w-md mb-8">
+          {language === "en"
+            ? "The page you're looking for doesn't exist or has been moved."
+            : "Aradığınız sayfa mevcut değil veya taşındı."}
+        </p>
+        <Button asChild>
+          <Link to="/">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            {language === "en" ? "Back to Home" : "Ana Sayfaya Dön"}
+          </Link>
+        </Button>
       </div>
-    </div>
+    </Layout>
   );
-};
-
-export default NotFound;
+}
