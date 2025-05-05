@@ -5,7 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import BlogPostCard, { BlogPost } from "@/components/BlogPostCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, BookOpen, Layout as LayoutIcon } from "lucide-react";
 import gsap from "gsap";
 import { useStore } from "@/store/useStore";
 import { getText } from "@/lib/i18n";
@@ -15,26 +15,26 @@ import FloatingShapes from "@/components/FloatingShapes";
 const blogPostsData: BlogPost[] = [
   {
     id: "1",
-    title: "How to Build a Real-time Chat App with Socket.IO and React",
-    excerpt: "Learn how to create a full-featured real-time chat application using Socket.IO, React, and Express.",
-    date: "May 3, 2025",
-    category: "Tutorial",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-    slug: "real-time-chat-app",
+    title: "The Future of Web Development in 2025",
+    excerpt: "Exploring emerging technologies and trends that will shape the future of web development in the coming year.",
+    date: "May 10, 2025",
+    category: "Web Development",
+    image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+    slug: "future-web-development-2025",
   },
   {
     id: "2",
-    title: "Understanding TypeScript Generics: A Beginner's Guide",
-    excerpt: "TypeScript generics can be confusing at first. This guide breaks down the concept with practical examples.",
-    date: "April 28, 2025",
-    category: "TypeScript",
-    image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-    slug: "typescript-generics-guide",
+    title: "Mastering UI Animation with GSAP",
+    excerpt: "Learn how to create stunning animations that enhance user experience and bring your web applications to life.",
+    date: "April 25, 2025",
+    category: "Animation",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
+    slug: "mastering-ui-animation-gsap",
   },
   {
     id: "3",
-    title: "Building Accessible Web Applications: Best Practices",
-    excerpt: "Learn how to ensure your web applications are accessible to all users, including those with disabilities.",
+    title: "Building Accessible Web Applications",
+    excerpt: "Best practices for creating inclusive web experiences for all users, including those with disabilities.",
     date: "April 15, 2025",
     category: "Accessibility",
     image: "https://images.unsplash.com/photo-1573496005828-adb7680bad53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
@@ -74,6 +74,7 @@ export default function Blog() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>(blogPostsData);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [layout, setLayout] = useState<"grid" | "list">("grid");
   
   // Handle search and category filtering
   useEffect(() => {
@@ -103,7 +104,7 @@ export default function Blog() {
           opacity: 1,
           duration: 0.5,
           stagger: 0.1,
-          ease: "power2.out",
+          ease: "back.out(1.2)",
         }
       );
     });
@@ -117,11 +118,11 @@ export default function Blog() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-20">
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-20 bg-gradient-to-b from-background to-blue-50/50 dark:from-background dark:to-blue-950/10">
         <FloatingShapes />
         <div className="container-custom relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
               {getText("blog.title", language)}
             </h1>
             <p className="text-xl text-foreground/80">
@@ -135,46 +136,96 @@ export default function Blog() {
       <section className="section-padding">
         <div className="container-custom">
           {/* Search and Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-10">
-            <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground/60 h-4 w-4" />
-              <Input
-                type="text"
-                placeholder={language === "en" ? "Search posts..." : "Yazıları ara..."}
-                className="pl-9"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                variant={selectedCategory === null ? "default" : "outline"}
-                className="rounded-full"
-                onClick={() => setSelectedCategory(null)}
-              >
-                {language === "en" ? "All" : "Tümü"}
-              </Button>
-              {categories.map((category) => (
+          <div className="flex flex-col sm:flex-row justify-between gap-4 mb-10">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-foreground/60 h-4 w-4" />
+                <Input
+                  type="text"
+                  placeholder={language === "en" ? "Search posts..." : "Yazıları ara..."}
+                  className="pl-9"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-wrap gap-2">
                 <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
+                  variant={selectedCategory === null ? "default" : "outline"}
                   className="rounded-full"
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => setSelectedCategory(null)}
                 >
-                  {category}
+                  {language === "en" ? "All" : "Tümü"}
                 </Button>
-              ))}
+                {categories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "outline"}
+                    className="rounded-full"
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Layout Toggle */}
+            <div className="flex gap-2">
+              <Button
+                variant={layout === "grid" ? "default" : "outline"}
+                size="icon"
+                onClick={() => setLayout("grid")}
+                className="rounded-full"
+              >
+                <LayoutIcon className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={layout === "list" ? "default" : "outline"}
+                size="icon"
+                onClick={() => setLayout("list")}
+                className="rounded-full"
+              >
+                <BookOpen className="h-4 w-4" />
+              </Button>
             </div>
           </div>
           
-          {/* Posts Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPosts.map((post) => (
-              <div key={post.id} className="blog-post-card">
-                <BlogPostCard post={post} />
-              </div>
-            ))}
-          </div>
+          {/* Posts Grid or List */}
+          {layout === "grid" ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post) => (
+                <div key={post.id} className="blog-post-card">
+                  <BlogPostCard post={post} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {filteredPosts.map((post) => (
+                <div key={post.id} className="blog-post-card flex flex-col sm:flex-row gap-6 bg-card hover:bg-card/80 border border-border/50 rounded-xl p-6 transition-colors">
+                  <div className="sm:w-1/3 aspect-video rounded-lg overflow-hidden">
+                    <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="sm:w-2/3 flex flex-col">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                      <span className="bg-primary/10 text-primary px-2.5 py-0.5 rounded-full">
+                        {post.category}
+                      </span>
+                      <span>{post.date}</span>
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">{post.title}</h3>
+                    <p className="text-muted-foreground mb-4 flex-grow">{post.excerpt}</p>
+                    <Button asChild variant="ghost" className="self-start">
+                      <Link to={`/blog/${post.slug}`}>
+                        {language === "en" ? "Read More" : "Devamını Oku"}
+                        <ArrowRight className="ml-2 h-3.5 w-3.5" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           
           {/* Empty State */}
           {filteredPosts.length === 0 && (
@@ -193,7 +244,7 @@ export default function Blog() {
           {/* Load More (would be connected to pagination in a real app) */}
           {filteredPosts.length > 0 && filteredPosts.length < blogPostsData.length && (
             <div className="mt-10 text-center">
-              <Button variant="outline">
+              <Button variant="outline" className="rounded-full">
                 {language === "en" ? "Load More" : "Daha Fazla Yükle"}
               </Button>
             </div>
