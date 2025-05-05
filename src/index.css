@@ -86,10 +86,6 @@
   ::selection {
     @apply bg-primary/30;
   }
-  
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 /* Custom utility classes */
@@ -116,52 +112,5 @@
 
   .hover-card {
     @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
-  }
-  
-  .glass-card {
-    @apply bg-white/80 dark:bg-background/80 backdrop-blur-sm border border-border/50;
-  }
-  
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
-  }
-  
-  .gradient-bg {
-    @apply bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20;
-  }
-}
-
-/* Enhanced animations */
-@layer utilities {
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-  
-  .animation-delay-600 {
-    animation-delay: 600ms;
-  }
-  
-  .animation-delay-900 {
-    animation-delay: 900ms;
-  }
-  
-  .animation-delay-1200 {
-    animation-delay: 1200ms;
-  }
-  
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-  
-  .animation-delay-4000 {
-    animation-delay: 4s;
-  }
-  
-  .shadow-glow-sm {
-    box-shadow: 0 0 10px 0 rgba(var(--primary), 0.5);
-  }
-  
-  .shadow-glow-md {
-    box-shadow: 0 0 20px 0 rgba(var(--primary), 0.5);
   }
 }
